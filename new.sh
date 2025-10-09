@@ -6,7 +6,7 @@ if [ $# -ne 1 ]; then
   exit 1
 fi
 
-DAY=$1
+DAY=$(printf "%02d" $1)
 DEST="src/days/$DAY"
 
 if [ -d "$DEST" ]; then
@@ -36,55 +36,43 @@ cat > "$DEST/$DAY.c" << EOF
 #include "solution.h"
 
 void day${DAY}_part1(void) {
-    char *input = read_input_file("input.txt");
+    char *input = read_input_file("${DAY}_input.txt");
     if (!input) return;
 
-    // TODO: Implement part 1 solution
-    printf("Result: TODO\n");
+    printf("\n");
 
     free(input);
 }
 
 void day${DAY}_part2(void) {
-    char *input = read_input_file("input.txt");
+    char *input = read_input_file("${DAY}_input.txt");
     if (!input) return;
 
-    // TODO: Implement part 2 solution
-    printf("Result: TODO\n");
+    printf("\n");
 
     free(input);
 }
 
 bool day${DAY}_test_part1(void) {
-    char *input = read_input_file("test_input.txt");
+    char *input = read_input_file("${DAY}_test_input.txt");
     if (!input) return false;
 
-    // TODO: Implement part 1 test
-    // Expected result: TODO
-    bool passed = false;
-
     free(input);
-    return passed;
+    return false;
 }
 
 bool day${DAY}_test_part2(void) {
-    char *input = read_input_file("test_input.txt");
+    char *input = read_input_file("${DAY}_test_input.txt");
     if (!input) return false;
 
-    // TODO: Implement part 2 test
-    // Expected result: TODO
-    bool passed = false;
-
     free(input);
-    return passed;
+    return false;
 }
 EOF
 
-touch "$DEST/input.txt"
-touch "$DEST/test_input.txt"
+touch "$DEST/${DAY}_input.txt"
+touch "$DEST/${DAY}_test_input.txt"
 
-echo "Created $DEST"
-echo "Don't forget to:"
-echo "1. Add the day to the registry in src/main.c"
-echo "2. Include the header: #include \"days/$DAY/$DAY.h\""
-echo "3. Add the day functions to the days array"
+echo "Created $DEST. Don't forget to:"
+echo "1. Include the header: #include \"days/$DAY/$DAY.h\""
+echo "2. Add &day${DAY}, to the days array"

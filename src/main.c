@@ -3,19 +3,12 @@
 #include <string.h>
 
 #include "utils.h"
+#include "days/solution.h"
+
 #include "days/01/01.h"
 
-typedef struct
-{
-    int day;
-    void (*part1)(void);
-    void (*part2)(void);
-    bool (*test_part1)(void);
-    bool (*test_part2)(void);
-} day_functions_t;
-
-static const day_functions_t days[] = {
-    {1, day01_part1, day01_part2, day01_test_part1, day01_test_part2},
+static const solution_t *days[] = {
+    &day01,
 };
 
 static const int num_days = sizeof(days) / sizeof(days[0]);
@@ -48,12 +41,12 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    const day_functions_t *day = NULL;
+    const solution_t *day = NULL;
     for (int i = 0; i < num_days; i++)
     {
-        if (days[i].day == day_num)
+        if (days[i]->day == day_num)
         {
-            day = &days[i];
+            day = days[i];
             break;
         }
     }

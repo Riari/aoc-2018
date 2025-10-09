@@ -15,14 +15,14 @@ target_include_directories(aoc_2018 PRIVATE
 
 file(GLOB DAY_DIRS RELATIVE "${CMAKE_SOURCE_DIR}/src/days" "${CMAKE_SOURCE_DIR}/src/days/*")
 foreach(DAY ${DAY_DIRS})
-    foreach(INPUT_FILE input.txt test_input.txt)
-        if(EXISTS "${CMAKE_SOURCE_DIR}/src/days/${DAY}/${INPUT_FILE}")
-            add_custom_command(
-                TARGET aoc_2018 POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                    "${CMAKE_SOURCE_DIR}/src/days/${DAY}/${INPUT_FILE}"
-                    "${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/${INPUT_FILE}"
-            )
-        endif()
+    file(GLOB INPUT_FILES "${CMAKE_SOURCE_DIR}/src/days/${DAY}/*_input.txt")
+    foreach(INPUT_FILE ${INPUT_FILES})
+        get_filename_component(INPUT_FILENAME ${INPUT_FILE} NAME)
+        add_custom_command(
+            TARGET aoc_2018 POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${INPUT_FILE}"
+                "${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/${INPUT_FILENAME}"
+        )
     endforeach()
 endforeach()
