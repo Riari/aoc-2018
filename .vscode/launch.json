@@ -1,0 +1,34 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Run (Windows)",
+            "program": "${workspaceFolder}/build/aoc_2018.exe",
+            "cwd": "${workspaceFolder}/build",
+            "args": [
+                "${input:day}"
+            ]
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Test (Windows)",
+            "program": "${workspaceFolder}/build/aoc_2018.exe",
+            "cwd": "${workspaceFolder}/build",
+            "args": [
+                "${input:day}",
+                "test"
+            ]
+        }
+    ],
+    "inputs": [
+        {
+            "id": "day",
+            "type": "promptString",
+            "description": "Day to run",
+            "default": "1"
+        }
+    ]
+}

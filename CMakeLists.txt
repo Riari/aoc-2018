@@ -8,7 +8,7 @@ file(GLOB DAY_SRC "src/days/*/*.c")
 
 add_executable(aoc_2018 src/main.c ${UTILS_SRC} ${DAY_SRC})
 
-target_include_directories(aoc_2018 PRIVATE 
+target_include_directories(aoc_2018 PRIVATE
     "${CMAKE_SOURCE_DIR}/src/utils"
     "${CMAKE_SOURCE_DIR}/src/days"
 )
@@ -22,7 +22,7 @@ foreach(DAY ${DAY_DIRS})
             TARGET aoc_2018 POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
                 "${INPUT_FILE}"
-                "${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/${INPUT_FILENAME}"
+                "${CMAKE_BINARY_DIR}/${INPUT_FILENAME}"
         )
     endforeach()
 endforeach()
