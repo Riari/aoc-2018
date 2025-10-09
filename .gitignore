@@ -1,2 +1,3 @@
 build/
-src/days/**/input.txt
+src/days/**/*_input.txt
+!src/days/**/*_test_input.txt
