@@ -6,11 +6,9 @@
 #include "days/solution.h"
 
 #include "days/01/01.h"
-#include "days/02/02.h"
 
 static const solution_t *days[] = {
     &day01,
-    &day02,
 };
 
 static const int num_days = sizeof(days) / sizeof(days[0]);
@@ -29,10 +27,10 @@ void print_usage(const char *program_name)
 
 int parse_day(char* arg)
 {
-    int potential_day = atoi(arg);
-    if (potential_day >= 1 && potential_day <= 25)
+    int day = atoi(arg);
+    if (day >= 1 && day <= 25)
     {
-        return potential_day;
+        return day;
     }
 
     fprintf(stderr, "Error: Invalid day number '%s'\n", arg);
