@@ -18,8 +18,8 @@
             "program": "${workspaceFolder}/build/aoc_2018.exe",
             "cwd": "${workspaceFolder}/build",
             "args": [
-                "${input:day}",
-                "test"
+                "-t",
+                "${input:day}"
             ]
         }
     ],
