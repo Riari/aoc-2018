@@ -31,11 +31,13 @@ extern const solution_t day${DAY};
 EOF
 
 cat > "$DEST/$DAY.c" << EOF
+#include "$DAY.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "utils.h"
-#include "solution.h"
 
 void day${DAY}_part1(void) {
     char *input = read_input_file("${DAY}_input.txt");

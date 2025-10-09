@@ -6,7 +6,6 @@
 
 #include "utils.h"
 
-
 void day01_part1(void)
 {
     char *input = read_input_file("01_input.txt");
