@@ -6,145 +6,143 @@
 #include "days/solution.h"
 
 #include "days/01/01.h"
+#include "days/02/02.h"
 
 static const solution_t *days[] = {
     &day01,
+    &day02,
 };
 
 static const int num_days = sizeof(days) / sizeof(days[0]);
 
 void print_usage(const char *program_name)
 {
-    printf("Usage: %s <day> [part] [test]\n", program_name);
-    printf("  day: Day number (1-25)\n");
-    printf("  part: 1 or 2 (optional, defaults to both)\n");
-    printf("  test: 'test' to run tests instead of main solution\n");
+    printf("Usage: %s [--help|-h] [--test|-t] [day]\n", program_name);
+    printf("  --help|-h: Print this help message\n");
+    printf("  --test|-t: Run tests instead of main solution\n");
+    printf("  day: Day number (1-25, optional - defaults to all implemented)\n");
     printf("\nExamples:\n");
-    printf("  %s 1          # Run both parts of day 1\n", program_name);
-    printf("  %s 1 1        # Run only part 1 of day 1\n", program_name);
-    printf("  %s 1 test     # Run tests for day 1\n", program_name);
-    printf("  %s 1 1 test   # Run test for part 1 of day 1\n", program_name);
+    printf("  %s        # Run all implemented days\n", program_name);
+    printf("  %s 1      # Run solution for day 1\n", program_name);
+    printf("  %s -t 1   # Run tests for day 1\n", program_name);
+}
+
+int parse_day(char* arg)
+{
+    int potential_day = atoi(arg);
+    if (potential_day >= 1 && potential_day <= 25)
+    {
+        return potential_day;
+    }
+
+    fprintf(stderr, "Error: Invalid day number '%s'\n", arg);
+    return -1;
+}
+
+void run_part(void (*part)(void))
+{
+    timer_t timer = start_timer();
+    (*part)();
+    double time_taken = end_timer(timer);
+    printf("(Completed in %.6f seconds)\n", time_taken);
+}
+
+void run_test(bool (*test)(void))
+{
+    timer_t timer = start_timer();
+    bool result = (*test)();
+    double time_taken = end_timer(timer);
+    if (result)
+    {
+        printf("PASSED (%.6f seconds)\n", time_taken);
+    }
+    else
+    {
+        printf("FAILED (%.6f seconds)\n", time_taken);
+    }
+}
+
+void run_day(const solution_t *day, bool run_tests)
+{
+    printf("Day %d\n", day->day);
+
+    if (run_tests)
+    {
+        printf("Part 1 test: ");
+        run_test(day->test_part1);
+
+        printf("Part 2 test: ");
+        run_test(day->test_part2);
+    }
+    else
+    {
+        printf("\nPart 1:\n");
+        run_part(day->part1);
+
+        printf("\nPart 2:\n");
+        run_part(day->part2);
+    }
 }
 
 int main(int argc, char *argv[])
 {
-    if (argc < 2)
-    {
-        print_usage(argv[0]);
-        return 1;
-    }
-
-    int day_num = atoi(argv[1]);
-    if (day_num < 1 || day_num > 25)
-    {
-        fprintf(stderr, "Error: Day must be between 1 and 25\n");
-        return 1;
-    }
-
-    const solution_t *day = NULL;
-    for (int i = 0; i < num_days; i++)
-    {
-        if (days[i]->day == day_num)
-        {
-            day = days[i];
-            break;
-        }
-    }
-
-    if (!day)
-    {
-        fprintf(stderr, "Error: Day %d not implemented yet\n", day_num);
-        return 1;
-    }
-
-    bool run_part1 = true;
-    bool run_part2 = true;
+    int day_num = 0;  // 0 means run all days
     bool run_tests = false;
 
-    for (int i = 2; i < argc; i++)
+    if (argc >= 2)
     {
-        if (strcmp(argv[i], "test") == 0)
+        if (strcmp(argv[1], "--help") == 0 || strcmp(argv[1], "-h") == 0)
+        {
+            print_usage(argv[0]);
+            return 0;
+        }
+
+        if (strcmp(argv[1], "--test") == 0 || strcmp(argv[1], "-t") == 0)
         {
             run_tests = true;
+
+            if (argc >= 3)
+            {
+                day_num = parse_day(argv[2]);
+            }
         }
-        else if (strcmp(argv[i], "1") == 0)
+        else
         {
-            run_part1 = true;
-            run_part2 = false;
-        }
-        else if (strcmp(argv[i], "2") == 0)
-        {
-            run_part1 = false;
-            run_part2 = true;
+            day_num = parse_day(argv[1]);
         }
     }
 
-    printf("Advent of Code 2018 - Day %d\n", day_num);
-    printf("============================\n\n");
+    printf("Advent of Code 2018\n");
+    printf("===================\n\n");
 
-    if (run_tests)
+    if (day_num == 0)
     {
-        printf("Running tests...\n");
-        bool all_passed = true;
-
-        if (run_part1)
+        printf("Running %d solution(s)...\n\n", num_days);
+        for (int i = 0; i < num_days; i++)
         {
-            printf("Part 1 test: ");
-            timer_t timer = start_timer();
-            bool result = day->test_part1();
-            double time_taken = end_timer(timer);
-            if (result)
-            {
-                printf("PASSED (%.6f seconds)\n", time_taken);
-            }
-            else
-            {
-                printf("FAILED (%.6f seconds)\n", time_taken);
-                all_passed = false;
-            }
+            if (i > 0) printf("\n\n");
+            run_day(days[i], run_tests);
         }
-
-        if (run_part2)
-        {
-            printf("Part 2 test: ");
-            timer_t timer = start_timer();
-            bool result = day->test_part2();
-            double time_taken = end_timer(timer);
-            if (result)
-            {
-                printf("PASSED (%.6f seconds)\n", time_taken);
-            }
-            else
-            {
-                printf("FAILED (%.6f seconds)\n", time_taken);
-                all_passed = false;
-            }
-        }
-
-        printf("\nOverall: %s\n", all_passed ? "ALL TESTS PASSED" : "SOME TESTS FAILED");
-        return all_passed ? 0 : 1;
     }
     else
     {
-        printf("Running solution...\n");
-
-        if (run_part1)
+        const solution_t *day = NULL;
+        for (int i = 0; i < num_days; i++)
         {
-            printf("\nPart 1:\n");
-            timer_t timer = start_timer();
-            day->part1();
-            double time_taken = end_timer(timer);
-            printf("Part 1 completed in %.6f seconds\n", time_taken);
+            if (days[i]->day == day_num)
+            {
+                day = days[i];
+                break;
+            }
         }
 
-        if (run_part2)
+        if (!day)
         {
-            printf("\nPart 2:\n");
-            timer_t timer = start_timer();
-            day->part2();
-            double time_taken = end_timer(timer);
-            printf("Part 2 completed in %.6f seconds\n", time_taken);
+            fprintf(stderr, "Error: Day %d not implemented yet\n", day_num);
+            return 1;
         }
+
+        run_day(day, run_tests);
     }
 
     return 0;
