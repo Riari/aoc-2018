@@ -21,7 +21,6 @@ cat > "$DEST/$DAY.h" << EOF
 
 #include <stdbool.h>
 
-// Day $DAY function declarations
 void day${DAY}_part1(void);
 void day${DAY}_part2(void);
 bool day${DAY}_test_part1(void);
