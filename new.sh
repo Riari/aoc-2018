@@ -73,7 +73,6 @@ bool day${DAY}_test_part2(void) {
 }
 
 const solution_t day${DAY} = {
-    $1,
     day${DAY}_part1,
     day${DAY}_part2,
     day${DAY}_test_part1,

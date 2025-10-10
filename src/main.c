@@ -7,20 +7,20 @@
 
 #include "days/01/01.h"
 
-static const solution_t *days[] = {
+static const solution_t* solutions[] = {
     &day01,
 };
 
-static const int num_days = sizeof(days) / sizeof(days[0]);
+static const int num_solutions = sizeof(solutions) / sizeof(solutions[0]);
 
-void print_usage(const char *program_name)
+void print_usage(const char* program_name)
 {
     printf("Usage: %s [--help|-h] [--test|-t] [day]\n", program_name);
     printf("  --help|-h: Print this help message\n");
     printf("  --test|-t: Run tests instead of main solution\n");
-    printf("  day: Day number (1-25, optional - defaults to all implemented)\n");
+    printf("  day: The day to run the solution for (1-25, optional - defaults to all implemented)\n");
     printf("\nExamples:\n");
-    printf("  %s        # Run all implemented days\n", program_name);
+    printf("  %s        # Run all implemented solutions\n", program_name);
     printf("  %s 1      # Run solution for day 1\n", program_name);
     printf("  %s -t 1   # Run tests for day 1\n", program_name);
 }
@@ -60,31 +60,31 @@ void run_test(bool (*test)(void))
     }
 }
 
-void run_day(const solution_t *day, bool run_tests)
+void run_solution(const int day, const solution_t *solution, bool run_tests)
 {
-    printf("Day %d\n", day->day);
+    printf("Day %d\n", day);
 
     if (run_tests)
     {
         printf("Part 1 test: ");
-        run_test(day->test_part1);
+        run_test(solution->test_part1);
 
         printf("Part 2 test: ");
-        run_test(day->test_part2);
+        run_test(solution->test_part2);
     }
     else
     {
         printf("\nPart 1:\n");
-        run_part(day->part1);
+        run_part(solution->part1);
 
         printf("\nPart 2:\n");
-        run_part(day->part2);
+        run_part(solution->part2);
     }
 }
 
 int main(int argc, char *argv[])
 {
-    int day_num = 0;  // 0 means run all days
+    int day = 0;  // 0 means run all days
     bool run_tests = false;
 
     if (argc >= 2)
@@ -101,46 +101,36 @@ int main(int argc, char *argv[])
 
             if (argc >= 3)
             {
-                day_num = parse_day(argv[2]);
+                day = parse_day(argv[2]);
             }
         }
         else
         {
-            day_num = parse_day(argv[1]);
+            day = parse_day(argv[1]);
         }
     }
 
     printf("Advent of Code 2018\n");
     printf("===================\n\n");
 
-    if (day_num == 0)
+    if (day == 0)
     {
-        printf("Running %d solution(s)...\n\n", num_days);
-        for (int i = 0; i < num_days; i++)
+        printf("Running %d solution(s)...\n\n", num_solutions);
+        for (int i = 0; i < num_solutions; ++i)
         {
             if (i > 0) printf("\n\n");
-            run_day(days[i], run_tests);
+            run_solution(i + 1, solutions[i], run_tests);
         }
     }
     else
     {
-        const solution_t *day = NULL;
-        for (int i = 0; i < num_days; i++)
+        if (day > num_solutions)
         {
-            if (days[i]->day == day_num)
-            {
-                day = days[i];
-                break;
-            }
-        }
-
-        if (!day)
-        {
-            fprintf(stderr, "Error: Day %d not implemented yet\n", day_num);
+            fprintf(stderr, "Error: Solution for day %d not created yet\n", day);
             return 1;
         }
 
-        run_day(day, run_tests);
+        run_solution(day, solutions[day - 1], run_tests);
     }
 
     return 0;

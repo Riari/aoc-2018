@@ -4,7 +4,6 @@
 
 typedef struct
 {
-    int day;
     void (*part1)(void);
     void (*part2)(void);
     bool (*test_part1)(void);

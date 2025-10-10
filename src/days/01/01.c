@@ -39,7 +39,6 @@ bool day01_test_part2(void) {
 }
 
 const solution_t day01 = {
-    1,
     day01_part1,
     day01_part2,
     day01_test_part1,
