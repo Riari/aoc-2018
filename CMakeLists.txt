@@ -3,13 +3,13 @@ project(aoc_2018 C)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 
-file(GLOB UTILS_SRC "src/utils/*.c")
+file(GLOB LIB_SRC "src/lib/*.c")
 file(GLOB DAY_SRC "src/days/*/*.c")
 
-add_executable(aoc_2018 src/main.c ${UTILS_SRC} ${DAY_SRC})
+add_executable(aoc_2018 src/main.c ${LIB_SRC} ${DAY_SRC})
 
 target_include_directories(aoc_2018 PRIVATE
-    "${CMAKE_SOURCE_DIR}/src/utils"
+    "${CMAKE_SOURCE_DIR}/src/lib"
     "${CMAKE_SOURCE_DIR}/src/days"
 )
 

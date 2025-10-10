@@ -38,37 +38,41 @@ cat > "$DEST/$DAY.c" << EOF
 
 #include "utils.h"
 
-void day${DAY}_part1(void) {
-    char *input = read_input_file("${DAY}_input.txt");
-    if (!input) return;
+void day${DAY}_part1(void)
+{
+    lines_t lines = read_lines("${DAY}_input.txt");
+    if (!lines.lines) return;
 
     printf("\n");
 
-    free(input);
+    free_lines(lines);
 }
 
-void day${DAY}_part2(void) {
-    char *input = read_input_file("${DAY}_input.txt");
-    if (!input) return;
+void day${DAY}_part2(void)
+{
+    lines_t lines = read_lines("${DAY}_input.txt");
+    if (!lines.lines) return;
 
     printf("\n");
 
-    free(input);
+    free_lines(lines);
 }
 
-bool day${DAY}_test_part1(void) {
-    char *input = read_input_file("${DAY}_test_input.txt");
-    if (!input) return false;
+bool day${DAY}_test_part1(void)
+{
+    lines_t lines = read_lines("${DAY}_test_input.txt");
+    if (!lines.lines) return false;
 
-    free(input);
+    free_lines(lines);
     return false;
 }
 
-bool day${DAY}_test_part2(void) {
-    char *input = read_input_file("${DAY}_test_input.txt");
-    if (!input) return false;
+bool day${DAY}_test_part2(void)
+{
+    lines_t lines = read_lines("${DAY}_test_input.txt");
+    if (!lines.lines) return false;
 
-    free(input);
+    free_lines(lines);
     return false;
 }
 

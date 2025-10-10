@@ -4,38 +4,86 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "set.h"
 #include "utils.h"
+
+static int solve_p1(lines_t lines)
+{
+    int frequency = 0;
+    for (size_t i = 0; i < lines.count; ++i)
+    {
+        int value = atoi(lines.lines[i]);
+        frequency += value;
+    }
+
+    return frequency;
+}
+
+static int solve_p2(lines_t lines)
+{
+    set_t* set = set_create_int();
+    int frequency = 0;
+    bool found_repeat = false;
+    while (!found_repeat)
+    {
+        for (size_t i = 0; i < lines.count; ++i)
+        {
+            int value = atoi(lines.lines[i]);
+            frequency += value;
+            if (set_contains(set, &frequency))
+            {
+                found_repeat = true;
+                break;
+            }
+            set_insert(set, &frequency);
+        }
+    }
+
+    return frequency;
+}
 
 void day01_part1(void)
 {
-    char *input = read_input_file("01_input.txt");
-    if (!input) return;
+    lines_t lines = read_lines("01_input.txt");
+    if (!lines.lines) return;
 
-    free(input);
+    int result = solve_p1(lines);
+    printf("%d\n", result);
+
+    free_lines(lines);
 }
 
 void day01_part2(void)
 {
-    char *input = read_input_file("01_input.txt");
-    if (!input) return;
+    lines_t lines = read_lines("01_input.txt");
+    if (!lines.lines) return;
 
-    free(input);
+    int result = solve_p2(lines);
+    printf("%d\n", result);
+
+    free_lines(lines);
 }
 
-bool day01_test_part1(void) {
-    char *input = read_input_file("01_test_input.txt");
-    if (!input) return false;
+bool day01_test_part1(void)
+{
+    lines_t lines = read_lines("01_test_input.txt");
+    if (!lines.lines) return false;
 
-    free(input);
-    return false;
+    int result = solve_p1(lines);
+
+    free_lines(lines);
+    return result == 3;
 }
 
-bool day01_test_part2(void) {
-    char *input = read_input_file("01_test_input.txt");
-    if (!input) return false;
+bool day01_test_part2(void)
+{
+    lines_t lines = read_lines("01_test_input.txt");
+    if (!lines.lines) return false;
 
-    free(input);
-    return false;
+    int result = solve_p2(lines);
+
+    free_lines(lines);
+    return result == 2;
 }
 
 const solution_t day01 = {
