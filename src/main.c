@@ -13,6 +13,15 @@ static const solution_t* solutions[] = {
 
 static const int num_solutions = sizeof(solutions) / sizeof(solutions[0]);
 
+#define RED   "\x1B[31m"
+#define GRN   "\x1B[32m"
+#define YEL   "\x1B[33m"
+#define BLU   "\x1B[34m"
+#define MAG   "\x1B[35m"
+#define CYN   "\x1B[36m"
+#define WHT   "\x1B[37m"
+#define RESET "\x1B[0m"
+
 void print_usage(const char* program_name)
 {
     printf("Usage: %s [--help|-h] [--test|-t] [day]\n", program_name);
@@ -52,11 +61,11 @@ void run_test(bool (*test)(void))
     double time_taken = end_timer(timer);
     if (result)
     {
-        printf("PASSED (%.6f seconds)\n", time_taken);
+        printf(GRN "PASS" RESET " (%.6f seconds)\n", time_taken);
     }
     else
     {
-        printf("FAILED (%.6f seconds)\n", time_taken);
+        printf(RED "FAIL" RESET " (%.6f seconds)\n", time_taken);
     }
 }
 
