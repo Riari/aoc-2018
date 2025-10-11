@@ -1,3 +1,4 @@
+neovim.json
 build/
 src/days/**/*_input.txt
 !src/days/**/*_test_input.txt
