@@ -5,11 +5,11 @@
 
 #include "hash.h"
 
-set_t* set_create(unsigned long (*hash_func)(const void*),
+Set* set_create(unsigned long (*hash_func)(const void*),
                   int (*compare_func)(const void*, const void*),
                   void (*free_func)(void*))
 {
-    set_t* set = malloc(sizeof(set_t));
+    Set* set = malloc(sizeof(Set));
     set->capacity = 16;
     set->size = 0;
     set->hash_func = hash_func;
@@ -19,17 +19,17 @@ set_t* set_create(unsigned long (*hash_func)(const void*),
     return set;
 }
 
-set_t* set_create_int(void)
+Set* set_create_int(void)
 {
     return set_create(hash_int, compare_int, free_int);
 }
 
-set_t* set_create_string(void)
+Set* set_create_string(void)
 {
     return set_create(hash_string, compare_string, free_string);
 }
 
-void set_insert(set_t* set, const void* key)
+void set_insert(Set* set, const void* key)
 {
     if (set->size >= set->capacity * 0.75)
         set_resize(set);
@@ -68,7 +68,7 @@ void set_insert(set_t* set, const void* key)
     set->size++;
 }
 
-bool set_contains(set_t *set, const void *key)
+bool set_contains(Set *set, const void *key)
 {
     unsigned long h = set->hash_func(key) % set->capacity;
     set_node_t* node = set->buckets[h];
@@ -84,7 +84,7 @@ bool set_contains(set_t *set, const void *key)
     return false;
 }
 
-bool set_remove(set_t *set, const void *key)
+bool set_remove(Set *set, const void *key)
 {
     unsigned long h = set->hash_func(key) % set->capacity;
     set_node_t* node = set->buckets[h];
@@ -113,7 +113,7 @@ bool set_remove(set_t *set, const void *key)
     return false;
 }
 
-void set_resize(set_t *set)
+void set_resize(Set *set)
 {
     size_t old_capacity = set->capacity;
     set_node_t** old_buckets = set->buckets;
@@ -141,7 +141,7 @@ void set_resize(set_t *set)
     free(old_buckets);
 }
 
-void set_destroy(set_t *set)
+void set_destroy(Set *set)
 {
     for (size_t i = 0; i < set->capacity; ++i)
     {

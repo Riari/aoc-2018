@@ -48,7 +48,7 @@ int parse_day(char* arg)
 
 void run_part(void (*part)(void))
 {
-    timer_t timer = start_timer();
+    Timer timer = start_timer();
     (*part)();
     double time_taken = end_timer(timer);
     printf("(Completed in %.6f seconds)\n", time_taken);
@@ -56,7 +56,7 @@ void run_part(void (*part)(void))
 
 void run_test(bool (*test)(void))
 {
-    timer_t timer = start_timer();
+    Timer timer = start_timer();
     bool result = (*test)();
     double time_taken = end_timer(timer);
     if (result)

@@ -7,7 +7,7 @@
 #include "set.h"
 #include "utils.h"
 
-static int solve_p1(lines_t lines)
+static int solve_p1(Lines lines)
 {
     int frequency = 0;
     for (size_t i = 0; i < lines.count; ++i)
@@ -19,9 +19,9 @@ static int solve_p1(lines_t lines)
     return frequency;
 }
 
-static int solve_p2(lines_t lines)
+static int solve_p2(Lines lines)
 {
-    set_t* set = set_create_int();
+    Set* set = set_create_int();
     int frequency = 0;
     bool found_repeat = false;
     while (!found_repeat)
@@ -44,7 +44,7 @@ static int solve_p2(lines_t lines)
 
 void day01_part1(void)
 {
-    lines_t lines = read_lines("01_input.txt");
+    Lines lines = read_lines("01_input.txt");
     if (!lines.lines) return;
 
     int result = solve_p1(lines);
@@ -55,7 +55,7 @@ void day01_part1(void)
 
 void day01_part2(void)
 {
-    lines_t lines = read_lines("01_input.txt");
+    Lines lines = read_lines("01_input.txt");
     if (!lines.lines) return;
 
     int result = solve_p2(lines);
@@ -66,7 +66,7 @@ void day01_part2(void)
 
 bool day01_test_part1(void)
 {
-    lines_t lines = read_lines("01_test_input.txt");
+    Lines lines = read_lines("01_test_input.txt");
     if (!lines.lines) return false;
 
     int result = solve_p1(lines);
@@ -77,7 +77,7 @@ bool day01_test_part1(void)
 
 bool day01_test_part2(void)
 {
-    lines_t lines = read_lines("01_test_input.txt");
+    Lines lines = read_lines("01_test_input.txt");
     if (!lines.lines) return false;
 
     int result = solve_p2(lines);

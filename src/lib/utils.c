@@ -33,15 +33,15 @@ char* read_file(const char *filename)
     return buffer;
 }
 
-lines_t read_lines(const char *filename) {
-    lines_t result = {NULL, 0};
-    
+Lines read_lines(const char *filename) {
+    Lines result = {NULL, 0};
+
     char *content = read_file(filename);
     if (!content)
     {
         return result;
     }
-    
+
     size_t line_count = 0;
     for (char *p = content; *p; p++)
     {
@@ -55,7 +55,7 @@ lines_t read_lines(const char *filename) {
     {
         line_count++;
     }
-    
+
     result.lines = malloc(line_count * sizeof(char*));
     if (!result.lines)
     {
@@ -63,11 +63,11 @@ lines_t read_lines(const char *filename) {
         free(content);
         return result;
     }
-    
+
     result.count = 0;
     char *line_start = content;
     char *p = content;
-    
+
     while (*p)
     {
         if (*p == '\n')
@@ -89,7 +89,7 @@ lines_t read_lines(const char *filename) {
         }
         p++;
     }
-    
+
     if (line_start < p)
     {
         size_t len = p - line_start;
@@ -107,12 +107,12 @@ lines_t read_lines(const char *filename) {
         result.lines[result.count][len] = '\0';
         result.count++;
     }
-    
+
     free(content);
     return result;
 }
 
-void free_lines(lines_t lines)
+void free_lines(Lines lines)
 {
     if (lines.lines)
     {
@@ -124,14 +124,14 @@ void free_lines(lines_t lines)
     }
 }
 
-timer_t start_timer(void)
+Timer start_timer(void)
 {
-    timer_t timer;
+    Timer timer;
     timer.start_time = clock();
     return timer;
 }
 
-double end_timer(timer_t timer)
+double end_timer(Timer timer)
 {
     clock_t end_time = clock();
     return ((double)(end_time - timer.start_time)) / CLOCKS_PER_SEC;
