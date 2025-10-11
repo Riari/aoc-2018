@@ -21,6 +21,27 @@
                 "-t",
                 "${input:day}"
             ]
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Run (Linux)",
+            "program": "${workspaceFolder}/build/aoc_2018",
+            "cwd": "${workspaceFolder}/build",
+            "args": [
+                "${input:day}"
+            ]
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Test (Linux)",
+            "program": "${workspaceFolder}/build/aoc_2018",
+            "cwd": "${workspaceFolder}/build",
+            "args": [
+                "-t",
+                "${input:day}"
+            ]
         }
     ],
     "inputs": [
