@@ -4,7 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "set.h"
+#include "hash.h"
+#include "hash_set_int.h"
 #include "utils.h"
 
 static int solve_p1(Lines lines)
@@ -21,7 +22,7 @@ static int solve_p1(Lines lines)
 
 static int solve_p2(Lines lines)
 {
-    Set* set = set_create_int();
+    HashSetInt* set = hash_set_int_create(lines.count);
     int frequency = 0;
     bool found_repeat = false;
     while (!found_repeat)
@@ -30,14 +31,16 @@ static int solve_p2(Lines lines)
         {
             int value = atoi(lines.lines[i]);
             frequency += value;
-            if (set_contains(set, &frequency))
+            if (hash_set_int_contains(set, frequency))
             {
                 found_repeat = true;
                 break;
             }
-            set_insert(set, &frequency);
+            hash_set_int_insert(set, frequency);
         }
     }
+
+    hash_set_int_destroy(set);
 
     return frequency;
 }
