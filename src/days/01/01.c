@@ -4,8 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "hash.h"
-#include "hash_set_int.h"
+#define NAME int_set
+#define KEY_TY int
+#include "verstable.h"
+
 #include "utils.h"
 
 static int solve_p1(Lines lines)
@@ -22,7 +24,9 @@ static int solve_p1(Lines lines)
 
 static int solve_p2(Lines lines)
 {
-    HashSetInt* set = hash_set_int_create(lines.count);
+    int_set set;
+    vt_init(&set);
+
     int frequency = 0;
     bool found_repeat = false;
     while (!found_repeat)
@@ -31,16 +35,17 @@ static int solve_p2(Lines lines)
         {
             int value = atoi(lines.lines[i]);
             frequency += value;
-            if (hash_set_int_contains(set, frequency))
+            int_set_itr iter = vt_get(&set, frequency);
+            if (!vt_is_end(iter))
             {
                 found_repeat = true;
                 break;
             }
-            hash_set_int_insert(set, frequency);
+            vt_insert(&set, frequency);
         }
     }
 
-    hash_set_int_destroy(set);
+    vt_cleanup(&set);
 
     return frequency;
 }
