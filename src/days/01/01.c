@@ -4,10 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define NAME int_set
-#define KEY_TY int
-#include "verstable.h"
-
+#include "cc.h"
 #include "utils.h"
 
 static int solve_p1(Lines lines)
@@ -24,8 +21,8 @@ static int solve_p1(Lines lines)
 
 static int solve_p2(Lines lines)
 {
-    int_set set;
-    vt_init(&set);
+    set(int) frequency_set;
+    init(&frequency_set);
 
     int frequency = 0;
     bool found_repeat = false;
@@ -35,17 +32,18 @@ static int solve_p2(Lines lines)
         {
             int value = atoi(lines.lines[i]);
             frequency += value;
-            int_set_itr iter = vt_get(&set, frequency);
-            if (!vt_is_end(iter))
+            int* current = get(&frequency_set, frequency);
+            if (current)
             {
                 found_repeat = true;
                 break;
             }
-            vt_insert(&set, frequency);
+
+            insert(&frequency_set, frequency);
         }
     }
 
-    vt_cleanup(&set);
+    cleanup(&frequency_set);
 
     return frequency;
 }

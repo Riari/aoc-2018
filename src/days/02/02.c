@@ -3,11 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define NAME str_int_map
-#define KEY_TY char
-#define VAL_TY int
-#include "verstable.h"
-
+#include "cc.h"
 #include "utils.h"
 
 int solve(Lines* lines)
@@ -17,8 +13,8 @@ int solve(Lines* lines)
     bool counted_two = false;
     bool counted_three = false;
 
-    str_int_map map;
-    vt_init(&map);
+    map(char, int) id_map;
+    init(&id_map);
     for (int i = 0; i < lines->count; ++i) 
     {
         char* line = lines->lines[i];
@@ -26,29 +22,18 @@ int solve(Lines* lines)
         for (int j = 0; j < len; ++j)
         {
             int count = 0;
-            str_int_map_itr iter = vt_get(&map, line[j]);
-            if (vt_is_end(iter))
-            {
-                vt_insert(&map, line[j], 1);
-            }
-            else
-            {
-                vt_insert(&map, line[j], iter.data->val + 1);
-            }
+            int* current = get(&id_map, line[j]);
+            insert(&id_map, line[j], current ? *current + 1 : 1);
         }
 
-        for (
-            str_int_map_itr iter = vt_first(&map);
-            !vt_is_end(iter);
-            iter = vt_next(iter)
-        )
+        for_each(&id_map, val)
         {
-            if (iter.data->val == 2 && !counted_two)
+            if (*val == 2 && !counted_two)
             {
                 count_two += 1;
                 counted_two = true;
             }
-            else if (iter.data->val == 3 && !counted_three)
+            else if (*val == 3 && !counted_three)
             {
                 count_three += 1;
                 counted_three = true;
@@ -57,10 +42,10 @@ int solve(Lines* lines)
 
         counted_two = false;
         counted_three = false;
-        vt_clear(&map);
+        clear(&id_map);
     }
 
-    vt_cleanup(&map);
+    cleanup(&id_map);
 
     return count_two * count_three;
 }
