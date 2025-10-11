@@ -86,7 +86,7 @@ bool day01_test_part2(void)
     return result == 2;
 }
 
-const solution_t day01 = {
+const Solution day01 = {
     day01_part1,
     day01_part2,
     day01_test_part1,

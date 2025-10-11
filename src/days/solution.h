@@ -8,4 +8,4 @@ typedef struct
     void (*part2)(void);
     bool (*test_part1)(void);
     bool (*test_part2)(void);
-} solution_t;
+} Solution;

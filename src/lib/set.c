@@ -15,7 +15,7 @@ Set* set_create(unsigned long (*hash_func)(const void*),
     set->hash_func = hash_func;
     set->compare_func = compare_func;
     set->free_func = free_func;
-    set->buckets = calloc(set->capacity, sizeof(set_node_t*));
+    set->buckets = calloc(set->capacity, sizeof(SetNode*));
     return set;
 }
 
@@ -35,7 +35,7 @@ void set_insert(Set* set, const void* key)
         set_resize(set);
 
     unsigned long h = set->hash_func(key) % set->capacity;
-    set_node_t* node = set->buckets[h];
+    SetNode* node = set->buckets[h];
 
     while (node != NULL)
     {
@@ -44,8 +44,8 @@ void set_insert(Set* set, const void* key)
         node = node->next;
     }
 
-    set_node_t* new_node = malloc(sizeof(set_node_t));
-    
+    SetNode* new_node = malloc(sizeof(SetNode));
+
     // For integers, allocate and copy the value
     // For strings, strdup is called by the user before passing
     if (set->hash_func == hash_int)
@@ -62,7 +62,7 @@ void set_insert(Set* set, const void* key)
         // For custom types, assume key is already allocated
         new_node->key = (void*)key;
     }
-    
+
     new_node->next = set->buckets[h];
     set->buckets[h] = new_node;
     set->size++;
@@ -71,7 +71,7 @@ void set_insert(Set* set, const void* key)
 bool set_contains(Set *set, const void *key)
 {
     unsigned long h = set->hash_func(key) % set->capacity;
-    set_node_t* node = set->buckets[h];
+    SetNode* node = set->buckets[h];
 
     while (node != NULL)
     {
@@ -87,8 +87,8 @@ bool set_contains(Set *set, const void *key)
 bool set_remove(Set *set, const void *key)
 {
     unsigned long h = set->hash_func(key) % set->capacity;
-    set_node_t* node = set->buckets[h];
-    set_node_t* prev = NULL;
+    SetNode* node = set->buckets[h];
+    SetNode* prev = NULL;
 
     while (node != NULL)
     {
@@ -116,18 +116,18 @@ bool set_remove(Set *set, const void *key)
 void set_resize(Set *set)
 {
     size_t old_capacity = set->capacity;
-    set_node_t** old_buckets = set->buckets;
+    SetNode** old_buckets = set->buckets;
 
     set->capacity *= 2;
-    set->buckets = calloc(set->capacity, sizeof(set_node_t*));
+    set->buckets = calloc(set->capacity, sizeof(SetNode*));
     set->size = 0;
 
     for (size_t i = 0; i < old_capacity; ++i)
     {
-        set_node_t* node = old_buckets[i];
+        SetNode* node = old_buckets[i];
         while (node != NULL)
         {
-            set_node_t* next = node->next;
+            SetNode* next = node->next;
 
             unsigned long h = set->hash_func(node->key) % set->capacity;
             node->next = set->buckets[h];
@@ -145,10 +145,10 @@ void set_destroy(Set *set)
 {
     for (size_t i = 0; i < set->capacity; ++i)
     {
-        set_node_t* node = set->buckets[i];
+        SetNode* node = set->buckets[i];
         while (node != NULL)
         {
-            set_node_t* next = node->next;
+            SetNode* next = node->next;
             if (set->free_func)
                 set->free_func(node->key);
             free(node);

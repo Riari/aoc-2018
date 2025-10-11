@@ -21,12 +21,14 @@ cat > "$DEST/$DAY.h" << EOF
 
 #include <stdbool.h>
 
+#include "../solution.h"
+
 void day${DAY}_part1(void);
 void day${DAY}_part2(void);
 bool day${DAY}_test_part1(void);
 bool day${DAY}_test_part2(void);
 
-extern const solution_t day${DAY};
+extern const Solution day${DAY};
 EOF
 
 cat > "$DEST/$DAY.c" << EOF
@@ -76,7 +78,7 @@ bool day${DAY}_test_part2(void)
     return false;
 }
 
-const solution_t day${DAY} = {
+const Solution day${DAY} = {
     day${DAY}_part1,
     day${DAY}_part2,
     day${DAY}_test_part1,

@@ -3,15 +3,15 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-typedef struct set_node_t
+typedef struct SetNode
 {
     void* key;
-    struct set_node_t *next;
-} set_node_t;
+    struct SetNode *next;
+} SetNode;
 
 typedef struct
 {
-    set_node_t** buckets;
+    SetNode** buckets;
     size_t size;
     size_t capacity;
     unsigned long (*hash_func)(const void*);

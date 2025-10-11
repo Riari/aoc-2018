@@ -6,9 +6,11 @@
 #include "days/solution.h"
 
 #include "days/01/01.h"
+#include "days/02/02.h"
 
-static const solution_t* solutions[] = {
+static const Solution* solutions[] = {
     &day01,
+    &day02,
 };
 
 static const int num_solutions = sizeof(solutions) / sizeof(solutions[0]);
@@ -69,7 +71,7 @@ void run_test(bool (*test)(void))
     }
 }
 
-void run_solution(const int day, const solution_t *solution, bool run_tests)
+void run_solution(const int day, const Solution* solution, bool run_tests)
 {
     printf("Day %d\n", day);
 
