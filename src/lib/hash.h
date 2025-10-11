@@ -10,7 +10,3 @@ unsigned long hash_string(const void* key);
 int compare_int(const void* a, const void* b);
 
 int compare_string(const void* a, const void* b);
-
-void free_int(void* key);
-
-void free_string(void* key);

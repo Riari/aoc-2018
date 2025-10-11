@@ -39,13 +39,3 @@ int compare_string(const void* a, const void* b)
 {
     return strcmp((const char*)a, (const char*)b);
 }
-
-void free_int(void* key)
-{
-    free(key);
-}
-
-void free_string(void* key)
-{
-    free(key);
-}

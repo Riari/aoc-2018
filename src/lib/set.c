@@ -21,12 +21,12 @@ Set* set_create(unsigned long (*hash_func)(const void*),
 
 Set* set_create_int(void)
 {
-    return set_create(hash_int, compare_int, free_int);
+    return set_create(hash_int, compare_int, free);
 }
 
 Set* set_create_string(void)
 {
-    return set_create(hash_string, compare_string, free_string);
+    return set_create(hash_string, compare_string, free);
 }
 
 void set_insert(Set* set, const void* key)
