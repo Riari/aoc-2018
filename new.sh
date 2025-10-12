@@ -45,8 +45,6 @@ void day${DAY}_part1(void)
     Lines lines = read_lines("${DAY}_input.txt");
     if (!lines.lines) return;
 
-    printf("\n");
-
     free_lines(lines);
 }
 
@@ -54,8 +52,6 @@ void day${DAY}_part2(void)
 {
     Lines lines = read_lines("${DAY}_input.txt");
     if (!lines.lines) return;
-
-    printf("\n");
 
     free_lines(lines);
 }
