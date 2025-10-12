@@ -55,7 +55,7 @@ void day01_part1(void)
     if (!lines.lines) return;
 
     int result = solve_p1(lines);
-    printf("%d\n", result);
+    printf("%d", result);
 
     free_lines(lines);
 }
@@ -66,7 +66,7 @@ void day01_part2(void)
     if (!lines.lines) return;
 
     int result = solve_p2(lines);
-    printf("%d\n", result);
+    printf("%d", result);
 
     free_lines(lines);
 }

@@ -51,9 +51,11 @@ int parse_day(char* arg)
 void run_part(void (*part)(void))
 {
     Timer timer = start_timer();
+    printf(WHT);
     (*part)();
+    printf(RESET);
     double time_taken = end_timer(timer);
-    printf("(Completed in %.6fs)\n", time_taken);
+    printf("\n(%.6fs)\n", time_taken);
 }
 
 void run_test(bool (*test)(void))
@@ -85,10 +87,10 @@ void run_solution(const int day, const Solution* solution, bool run_tests)
     }
     else
     {
-        printf("\nPart 1:\n");
+        printf("Part 1: ");
         run_part(solution->part1);
 
-        printf("\nPart 2:\n");
+        printf("Part 2: ");
         run_part(solution->part2);
     }
 }
