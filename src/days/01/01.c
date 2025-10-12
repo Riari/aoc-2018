@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define CC_NO_SHORT_NAMES
 #include "cc.h"
 #include "utils.h"
 
@@ -21,8 +22,8 @@ static int solve_p1(Lines lines)
 
 static int solve_p2(Lines lines)
 {
-    set(int) frequency_set;
-    init(&frequency_set);
+    cc_set(int) set;
+    cc_init(&set);
 
     int frequency = 0;
     bool found_repeat = false;
@@ -32,18 +33,18 @@ static int solve_p2(Lines lines)
         {
             int value = atoi(lines.lines[i]);
             frequency += value;
-            int* current = get(&frequency_set, frequency);
+            int* current = cc_get(&set, frequency);
             if (current)
             {
                 found_repeat = true;
                 break;
             }
 
-            insert(&frequency_set, frequency);
+            cc_insert(&set, frequency);
         }
     }
 
-    cleanup(&frequency_set);
+    cc_cleanup(&set);
 
     return frequency;
 }

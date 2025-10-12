@@ -53,7 +53,7 @@ void run_part(void (*part)(void))
     Timer timer = start_timer();
     (*part)();
     double time_taken = end_timer(timer);
-    printf("(Completed in %.6f seconds)\n", time_taken);
+    printf("(Completed in %.6fs)\n", time_taken);
 }
 
 void run_test(bool (*test)(void))
@@ -63,11 +63,11 @@ void run_test(bool (*test)(void))
     double time_taken = end_timer(timer);
     if (result)
     {
-        printf(GRN "PASS" RESET " (%.6f seconds)\n", time_taken);
+        printf(GRN "PASS" RESET " (%.6fs)\n", time_taken);
     }
     else
     {
-        printf(RED "FAIL" RESET " (%.6f seconds)\n", time_taken);
+        printf(RED "FAIL" RESET " (%.6fs)\n", time_taken);
     }
 }
 

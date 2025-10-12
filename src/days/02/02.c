@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#define CC_NO_SHORT_NAMES
 #include "cc.h"
 #include "utils.h"
 
@@ -13,8 +14,8 @@ int solve(Lines* lines)
     bool counted_two = false;
     bool counted_three = false;
 
-    map(char, int) id_map;
-    init(&id_map);
+    cc_map(char, int) map;
+    cc_init(&map);
     for (int i = 0; i < lines->count; ++i) 
     {
         char* line = lines->lines[i];
@@ -22,11 +23,11 @@ int solve(Lines* lines)
         for (int j = 0; j < len; ++j)
         {
             int count = 0;
-            int* current = get(&id_map, line[j]);
-            insert(&id_map, line[j], current ? *current + 1 : 1);
+            int* current = cc_get(&map, line[j]);
+            cc_insert(&map, line[j], current ? *current + 1 : 1);
         }
 
-        for_each(&id_map, val)
+        cc_for_each(&map, val)
         {
             if (*val == 2 && !counted_two)
             {
@@ -42,10 +43,10 @@ int solve(Lines* lines)
 
         counted_two = false;
         counted_three = false;
-        clear(&id_map);
+        cc_clear(&map);
     }
 
-    cleanup(&id_map);
+    cc_cleanup(&map);
 
     return count_two * count_three;
 }
