@@ -131,7 +131,7 @@ int main(int argc, char *argv[])
         printf("Running %d solution(s)...\n\n", num_solutions);
         for (int i = 0; i < num_solutions; ++i)
         {
-            if (i > 0) printf("\n\n");
+            if (i > 0) printf("\n");
             run_solution(i + 1, solutions[i], run_tests);
         }
     }
