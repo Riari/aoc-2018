@@ -131,7 +131,7 @@ bool day02_test_part1(void)
 
 bool day02_test_part2(void)
 {
-    Lines lines = read_lines("02_test_input_p2.txt");
+    Lines lines = read_lines("02_p2_test_input.txt");
     if (!lines.lines) return false;
 
     char id[32];
