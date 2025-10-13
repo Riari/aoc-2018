@@ -7,10 +7,12 @@
 
 #include "days/01/01.h"
 #include "days/02/02.h"
+#include "days/03/03.h"
 
 static const Solution* solutions[] = {
     &day01,
     &day02,
+    &day03,
 };
 
 static const int num_solutions = sizeof(solutions) / sizeof(solutions[0]);
