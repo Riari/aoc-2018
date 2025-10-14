@@ -96,12 +96,15 @@ Claim parse_claim(char* definition)
     return claim;
 }
 
-void parse_claims(const Lines* lines, Claim* out_claims)
+static Claim* parse_claims(const Lines* lines)
 {
+    Claim* claims = malloc(lines->count * sizeof(Claim));
     for (int i = 0; i < lines->count; ++i)
     {
-        out_claims[i] = parse_claim(lines->lines[i]);
+        claims[i] = parse_claim(lines->lines[i]);
     }
+
+    return claims;
 }
 
 int solve(Claim* claims, const int count, const bool p2)
@@ -135,7 +138,14 @@ int solve(Claim* claims, const int count, const bool p2)
                 {
                     char* str = (char*)malloc(8 * sizeof(char));
                     sprintf(str, "%d,%d", x, y);
-                    cc_insert(&set, str);
+                    if (cc_get(&set, str) == NULL)
+                    {
+                        cc_insert(&set, str);
+                    }
+                    else
+                    {
+                        free(str);
+                    }
                 }
             }
         }
@@ -169,9 +179,7 @@ void day03_part1(void)
     Lines lines = read_lines("03_input.txt");
     if (!lines.lines) return;
 
-    Claim* claims = malloc(lines.count * sizeof(Claim));
-    parse_claims(&lines, claims);
-
+    Claim* claims = parse_claims(&lines);
     int result = solve(claims, lines.count, false);
     printf("%d\n", result);
 
@@ -184,13 +192,12 @@ void day03_part2(void)
     Lines lines = read_lines("03_input.txt");
     if (!lines.lines) return;
 
-    Claim* claims = malloc(lines.count * sizeof(Claim));
-    parse_claims(&lines, claims);
-
+    Claim* claims = parse_claims(&lines);
     int result = solve(claims, lines.count, true);
     printf("%d\n", result);
 
     free_lines(lines);
+    free(claims);
 }
 
 bool day03_test_part1(void)
@@ -198,9 +205,7 @@ bool day03_test_part1(void)
     Lines lines = read_lines("03_test_input.txt");
     if (!lines.lines) return false;
 
-    Claim* claims = malloc(lines.count * sizeof(Claim));
-    parse_claims(&lines, claims);
-
+    Claim* claims = parse_claims(&lines);
     int result = solve(claims, lines.count, false);
 
     free_lines(lines);
@@ -213,9 +218,7 @@ bool day03_test_part2(void)
     Lines lines = read_lines("03_test_input.txt");
     if (!lines.lines) return false;
 
-    Claim* claims = malloc(lines.count * sizeof(Claim));
-    parse_claims(&lines, claims);
-
+    Claim* claims = parse_claims(&lines);
     int result = solve(claims, lines.count, true);
 
     free_lines(lines);
