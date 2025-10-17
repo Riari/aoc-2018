@@ -136,3 +136,13 @@ double end_timer(Timer timer)
     clock_t end_time = clock();
     return ((double)(end_time - timer.start_time)) / CLOCKS_PER_SEC;
 }
+
+int compare_int_asc(const void* a, const void* b)
+{
+    return *(const int*)a - *(const int*)b;
+}
+
+int compare_int_desc(const void* a, const void* b)
+{
+    return *(const int*)b - *(const int*)a;
+}
