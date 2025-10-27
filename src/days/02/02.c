@@ -7,7 +7,7 @@
 #include "cc.h"
 #include "utils.h"
 
-int solve_p1(Lines* lines)
+static int solve_p1(Lines* lines)
 {
     int count_two = 0;
     int count_three = 0;
