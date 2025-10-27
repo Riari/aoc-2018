@@ -1,6 +1,5 @@
 #include "04.h"
 
-#include <corecrt_search.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -27,8 +26,8 @@ Record parse_record(const char* line)
 {
     Record record;
     int stage = 0;
-    char datetime[8];
-    char guard_id[8];
+    char datetime[9];
+    char guard_id[9];
     int str_pos = 0;
     for (int i = 0; i < strlen(line); ++i)
     {
@@ -65,6 +64,7 @@ Record parse_record(const char* line)
             case 4: // Reading minutes
                 if (c == ']')
                 {
+                    datetime[str_pos] = '\0';
                     record.datetime = atoi(datetime);
                     str_pos = 0;
                     ++stage;
@@ -257,6 +257,11 @@ static int solve(const Lines* lines, bool p2)
     }
 
     int result = result_guard_id * result_minute;
+
+    cc_for_each(&sleep_map, guard_id, guard)
+    {
+        free(*guard);
+    }
 
     cc_cleanup(&sleep_map);
 
