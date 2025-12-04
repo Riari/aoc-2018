@@ -58,22 +58,22 @@ void run_part(void (*part)(void))
     printf(WHT);
     (*part)();
     printf(RESET);
-    double time_taken = end_timer(timer);
-    printf("\n(%.6fs)\n", time_taken);
+    double time_taken = end_timer(timer) * 1000.0;
+    printf(" (~%.fms)\n", time_taken);
 }
 
 void run_test(bool (*test)(void))
 {
     Timer timer = start_timer();
     bool result = (*test)();
-    double time_taken = end_timer(timer);
+    double time_taken = end_timer(timer) * 1000.0;
     if (result)
     {
-        printf(GRN "PASS" RESET " (%.6fs)\n", time_taken);
+        printf(GRN "PASS" RESET " (~%.fms)\n", time_taken);
     }
     else
     {
-        printf(RED "FAIL" RESET " (%.6fs)\n", time_taken);
+        printf(RED "FAIL" RESET " (~%.fms)\n", time_taken);
     }
 }
 
