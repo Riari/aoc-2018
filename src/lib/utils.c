@@ -7,7 +7,7 @@
 
 char* read_file(const char *filename)
 {
-    FILE *f = fopen(filename, "r");
+    FILE *f = fopen(filename, "rb");
     if (!f)
     {
         fprintf(stderr, "Failed to open %s\n", filename);
